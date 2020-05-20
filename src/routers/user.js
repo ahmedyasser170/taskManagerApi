@@ -7,14 +7,13 @@ const sharp=require('sharp')
 
 router.post('/users' , async(req,res)=>{
     const user=new User(req.body);
-    console.log (req.body);
     try {
         await user.save();
         const token=await user.generateAuthToken();
-        res.status(201).send({user});
+        res.status(201).send({user,token});
     }
     catch(e) {
-        res.status(500).    send(e);
+        res.status(500).send(e);
     }
 
 }); 
@@ -27,7 +26,7 @@ router.post('/users/login',async(req,res)=>{
     } catch(e) {
         res.status(400).send(e);
     }
-
+ 
 });
 
 router.post('/users/logout',auth,async(req,res)=>{
